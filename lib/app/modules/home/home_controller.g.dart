@@ -34,15 +34,30 @@ mixin _$HomeController on _HomeControllerBase, Store {
     });
   }
 
+  final _$currentIndexAtom = Atom(name: '_HomeControllerBase.currentIndex');
+
+  @override
+  int get currentIndex {
+    _$currentIndexAtom.reportRead();
+    return super.currentIndex;
+  }
+
+  @override
+  set currentIndex(int value) {
+    _$currentIndexAtom.reportWrite(value, super.currentIndex, () {
+      super.currentIndex = value;
+    });
+  }
+
   final _$_HomeControllerBaseActionController =
       ActionController(name: '_HomeControllerBase');
 
   @override
-  void increment() {
+  void changePage(dynamic value) {
     final _$actionInfo = _$_HomeControllerBaseActionController.startAction(
-        name: '_HomeControllerBase.increment');
+        name: '_HomeControllerBase.changePage');
     try {
-      return super.increment();
+      return super.changePage(value);
     } finally {
       _$_HomeControllerBaseActionController.endAction(_$actionInfo);
     }
@@ -51,7 +66,8 @@ mixin _$HomeController on _HomeControllerBase, Store {
   @override
   String toString() {
     return '''
-value: ${value}
+value: ${value},
+currentIndex: ${currentIndex}
     ''';
   }
 }

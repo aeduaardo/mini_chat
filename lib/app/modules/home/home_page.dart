@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'home_controller.dart';
 
@@ -17,10 +18,40 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Observer(
+          builder: (context) {
+            return controller.titles[controller.currentIndex];
+          },
+        ),
       ),
-      body: Column(
-        children: <Widget>[],
+      body: Observer(
+        builder: (context) {
+          return controller.pageList[controller.currentIndex];
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: null,
+        child: Icon(
+          Icons.search,
+        ),
+      ),
+      bottomNavigationBar: Observer(
+        builder: (context) {
+          return BottomNavigationBar(
+            currentIndex: controller.currentIndex,
+            onTap: (index) => controller.changePage(index),
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.message),
+                label: 'Messages',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person),
+                label: 'Contacts',
+              ),
+            ],
+          );
+        },
       ),
     );
   }
